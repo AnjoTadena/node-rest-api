@@ -95,6 +95,30 @@ app.post('/api/courses', (request, response) => {
     response.send(course);
 });
 
+app.put('/api/courses/:id', (request, response) => {
+
+    const course = courses.find((course) => course.id === parseInt(request.param.id));
+
+    if (! course) response.status(404).send(`The course with the given ID is not found.`);
+
+    const schema = {
+        name: Joi.string().min(3).required()
+    };
+
+    const result = Joi.validate(request.body, schema);
+
+    if (result.error) {
+        
+        response.status(400).send(result.error.details[0].message);
+        
+        return;
+    }
+    
+    course.name = request.body.name;
+
+    response.send(coures);
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
