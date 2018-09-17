@@ -1,7 +1,5 @@
 
-const startupDebugger = require('debug')('app:startup');
-
-const dbDebugger = require('debug')('app:db');
+const debug = require('debug')('app:startup');
 
 const config = require('config');
 
@@ -47,11 +45,11 @@ if (isOnDevelopment()) {
     
     app.use(morgan('tiny'));
 
-    startupDebugger('Morgan enabled...')
+    debug('Morgan enabled...')
 }
 
 // DB WORK
-dbDebugger('Connected to the database');
+debug('Connected to the database');
 console.log('Application Name: ' + config.get('name'));
 console.log('Application Mail: ' + config.get('mail.host'));
 console.log('Mail Password: ' + config.get('mail.password'));
