@@ -1,0 +1,6 @@
+{
+    "name": "Simple Node RESTFul API",
+    "mail": {
+        "host": "production_mail_server"
+    }
+}

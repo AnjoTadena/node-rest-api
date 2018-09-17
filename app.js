@@ -1,3 +1,6 @@
+
+const config = require('config');
+
 // Joi Class
 const Joi = require('joi'); // returns a class
 
@@ -42,6 +45,10 @@ if (isOnDevelopment()) {
 
     console.log('Morgan enabled.');
 }
+
+console.log('Application Name: ' + config.get('name'));
+console.log('Application Mail: ' + config.get('mail.host'));
+console.log('Mail Password: ' + config.get('mail.password'));
 
 // app.use(morgan('tiny'));
 
