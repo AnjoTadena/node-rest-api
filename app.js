@@ -9,6 +9,8 @@ const logger = require('./logger');
 
 const auth = require('./auth');
 
+const morgan = require('morgan');
+
 const app = express();
 
 // Enable middleware for request pipeline
@@ -29,6 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use(helmet());
+
+app.use(morgan('tiny'));
 
 // app.get();
 // app.post();
