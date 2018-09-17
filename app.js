@@ -22,6 +22,12 @@ const isOnDevelopment = () => app.get('env') === DEVELOPMENT;
 
 const app = express();
 
+// SET TEMPLATING ENGINE
+app.set('view engine', 'pug');
+
+// Optional
+app.set('views', './views'); // default /views
+
 // Enable middleware for request pipeline
 // so that we can set request.body
 // parse request body
@@ -96,7 +102,11 @@ const courses = [
 ]
 
 app.get('/', (request, response) => {
-    response.send('Hello, World!');
+    // response.send('Hello, World!');
+    response.render('index', {
+        title: 'Simple RESTFul API',
+        message: 'Hello, World!'
+    });
 });
 
 app.get('/api/courses', (request, response) => {
