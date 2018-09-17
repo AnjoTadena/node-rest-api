@@ -1,3 +1,5 @@
+// Joi Class
+const Joi = require('joi'); // returns a class
 
 const express = require('express');
 
@@ -58,8 +60,31 @@ app.get('/api/courses/:id', (request, response) => {
     response.send(course);
 });
 
+// Never trust clients inputs
+// that's why we need to validate
 app.post('/api/courses', (request, response) => {
     
+    // const name = request.body.name;
+
+    // Validation here
+    // if (! name || name.length < 3) {
+    //     response.status(400).send('Name is required and should be a minimum 3 characters.');
+    // }
+
+    // Validation using Joi
+    const schema = {
+        name: Joi.string().min(3).required()
+    };
+
+    const result = Joi.validate(request.body, schema);
+
+    if (result.error) {
+        
+        response.status(400).send(result.error.details[0].message);
+        
+        return;
+    }
+
     const course = {
         id: courses.length + 1,
         name: request.body.name
