@@ -1,6 +1,7 @@
 {
     "name": "Simple Node RESTFul API",
     "mail": {
-        "host": "development_mail_server"
+        "host": "development_mail_server",
+        "password": "app_password"
     }
 }

@@ -1,4 +1,8 @@
 
+const startupDebugger = require('debug')('app:startup');
+
+const dbDebugger = require('debug')('app:db');
+
 const config = require('config');
 
 // Joi Class
@@ -43,9 +47,11 @@ if (isOnDevelopment()) {
     
     app.use(morgan('tiny'));
 
-    console.log('Morgan enabled.');
+    startupDebugger('Morgan enabled...')
 }
 
+// DB WORK
+dbDebugger('Connected to the database');
 console.log('Application Name: ' + config.get('name'));
 console.log('Application Mail: ' + config.get('mail.host'));
 console.log('Mail Password: ' + config.get('mail.password'));
