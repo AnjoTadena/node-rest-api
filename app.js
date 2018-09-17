@@ -3,6 +3,9 @@ const express = require('express');
 
 const app = express();
 
+// Enable middleware for request pipeline
+app.use(express.json());
+
 // app.get();
 // app.post();
 // app.put();
@@ -51,6 +54,18 @@ app.get('/api/courses/:id', (request, response) => {
     const course = courses.find((course) => course.id === parseInt(request.params.id));
 
     if (! course) response.status(404).send(`The course with the given ID is not found.`);
+
+    response.send(course);
+});
+
+app.post('/api/courses', (request, response) => {
+    
+    const course = {
+        id: courses.length + 1,
+        name: request.body.name
+    };
+
+    courses.push(course);
 
     response.send(course);
 });
