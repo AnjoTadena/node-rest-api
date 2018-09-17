@@ -3,10 +3,28 @@ const Joi = require('joi'); // returns a class
 
 const express = require('express');
 
+const logger = require('./logger');
+
+const auth = require('./auth');
+
 const app = express();
 
 // Enable middleware for request pipeline
+// so that we can set request.body
+// parse request body
 app.use(express.json());
+
+// Set our own middleware
+app.use(logger);
+
+// Set our own middleware for auth
+app.use(auth);
+
+// Enable url encoded payload
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static file
+app.use(express.static('public'));
 
 // app.get();
 // app.post();
