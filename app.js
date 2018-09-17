@@ -3,6 +3,8 @@ const Joi = require('joi'); // returns a class
 
 const express = require('express');
 
+const helmet = require('helmet');
+
 const logger = require('./logger');
 
 const auth = require('./auth');
@@ -25,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static file
 app.use(express.static('public'));
+
+app.use(helmet());
 
 // app.get();
 // app.post();
