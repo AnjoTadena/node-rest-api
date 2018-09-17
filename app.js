@@ -72,15 +72,17 @@ app.post('/api/courses', (request, response) => {
     // }
 
     // Validation using Joi
-    const schema = {
-        name: Joi.string().min(3).required()
-    };
+    // const schema = {
+    //     name: Joi.string().min(3).required()
+    // };
 
-    const result = Joi.validate(request.body, schema);
+    // const result = Joi.validate(request.body, schema);
 
-    if (result.error) {
+    const { error } = validateCourse(request.body);
+
+    if (error) {
         
-        response.status(400).send(result.error.details[0].message);
+        response.status(400).send(error.details[0].message);
         
         return;
     }
@@ -100,16 +102,15 @@ app.put('/api/courses/:id', (request, response) => {
     const course = courses.find((course) => course.id === parseInt(request.param.id));
 
     if (! course) response.status(404).send(`The course with the given ID is not found.`);
+    
+    // const validate = validateCourse(request.body);
+    
+    // Object destructuring
+    const { error } = validateCourse(request.body);
 
-    const schema = {
-        name: Joi.string().min(3).required()
-    };
-
-    const result = Joi.validate(request.body, schema);
-
-    if (result.error) {
+    if (error) {
         
-        response.status(400).send(result.error.details[0].message);
+        response.status(400).send(error.details[0].message);
         
         return;
     }
@@ -122,3 +123,13 @@ app.put('/api/courses/:id', (request, response) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
+
+
+const validateCourse = (request) => {
+    
+    const schema = {
+        name: Joi.string().min(3).required()
+    };
+
+    return Joi.validate(request.name, schema);
+};
