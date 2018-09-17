@@ -11,6 +11,10 @@ const auth = require('./auth');
 
 const morgan = require('morgan');
 
+const DEVELOPMENT = 'development';
+
+const isOnDevelopment = () => app.get('env') === DEVELOPMENT;
+
 const app = express();
 
 // Enable middleware for request pipeline
@@ -32,12 +36,26 @@ app.use(express.static('public'));
 
 app.use(helmet());
 
-app.use(morgan('tiny'));
+if (isOnDevelopment()) {
+    
+    app.use(morgan('tiny'));
+
+    console.log('Morgan enabled.');
+}
+
+// app.use(morgan('tiny'));
 
 // app.get();
 // app.post();
 // app.put();
 // app.delete();
+
+// ENVIRONMENT VARIABLE
+// process.env
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+// app.get('env'); // return development by default
+console.log(`app: ${app.get('env')}`);
 
 const courses = [
     {
