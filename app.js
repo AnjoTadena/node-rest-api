@@ -13,13 +13,25 @@ const home = require('./routes/home');
 
 const courses = require('./routes/courses');
 
+const genres = require('./routes/genres');
+
 const morgan = require('morgan');
+
+const mongoose = require('mongoose');
 
 const DEVELOPMENT = 'development';
 
 const isOnDevelopment = () => app.get('env') === DEVELOPMENT;
 
 const app = express();
+
+mongoose.connect('mongodb://localhost/practise', { useNewUrlParser: true })
+    .then(() => {
+        console.log('Connected to the moongose.');
+    })
+    .catch((error) => {
+        console.log('Failed to connect to the mongodb.', error);
+    });
 
 // SET TEMPLATING ENGINE
 app.set('view engine', 'pug');
@@ -50,6 +62,8 @@ app.use('/', home);
 
 app.use('/api/courses', courses);
 
+app.use('/api/genres', genres);
+
 if (isOnDevelopment()) {
     
     app.use(morgan('tiny'));
@@ -58,7 +72,7 @@ if (isOnDevelopment()) {
 }
 
 // DB WORK
-debug('Connected to the database');
+// debug('Connected to the database');
 // console.log('Application Name: ' + config.get('name'));
 // console.log('Application Mail: ' + config.get('mail.host'));
 // console.log('Mail Password: ' + config.get('mail.password'));

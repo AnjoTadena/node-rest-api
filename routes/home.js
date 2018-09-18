@@ -9,3 +9,5 @@ router.get('/', (request, response) => {
         message: 'Hello, World!'
     });
 });
+
+module.exports = router;

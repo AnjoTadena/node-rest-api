@@ -1,7 +1,36 @@
 
 const express = require('express');
 
+const mongoose = require('mongoose');
+
 const router = express.Router();
+
+const courseSchema = new mongoose.Schema({
+    name: String,
+    author: String,
+    tags: [String],
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    isPublished: Boolean
+});
+
+const Course = mongoose.model('Course', courseSchema);
+
+const createCourse = async (payload) => {
+    
+    const course = new Course({
+        name: payload.name,
+        author: payload.author,
+        tags: payload.tags,
+        isPublished: payload.isPublished
+    });
+    
+    const result = await course.save();
+
+    return result;
+};
 
 // Joi Class
 const Joi = require('joi'); // returns a class
@@ -81,12 +110,18 @@ router.post('/', (request, response) => {
 
     if (error) return response.status(400).send(error.details[0].message);
 
-    const course = {
-        id: courses.length + 1,
-        name: request.body.name
-    };
+    // const course = {
+    //     id: courses.length + 1,
+    //     name: request.body.name
+    // };
 
-    courses.push(course);
+    // courses.push(course);
+    const course = createCourse({
+        name: 'Angular 6 master class',
+        author: 'Mosh',
+        tags: ['framework', 'javascript'],
+        isPublished: true
+    });
 
     response.send(course);
 });
